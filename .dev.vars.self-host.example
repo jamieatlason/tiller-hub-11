@@ -1,0 +1,8 @@
+CF_ACCESS_AUD=<access-audience-tag>
+CF_ACCESS_CLIENT_ID=<cf-access-client-id>
+CF_ACCESS_CLIENT_SECRET=<cf-access-client-secret>
+DEFAULT_NAMESPACE=<namespace>
+DEFAULT_RUNNER_BACKEND=cf
+HUB_PUBLIC_URL=https://tiller.example.com
+LOCAL_RUNNER_URL=https://tiller-runner.example.com
+RESEARCH_RELAY_URL=https://tiller-relay.example.com/responses

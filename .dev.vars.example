@@ -1,0 +1,6 @@
+# Deploy-to-Cloudflare note:
+# Leave deploy-time secrets empty. After the first deploy, open the Tiller UI and
+# configure API keys and any optional local-runner settings from Settings.
+#
+# For manual self-host or local development examples, see:
+#   .dev.vars.self-host.example

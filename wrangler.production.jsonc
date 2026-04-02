@@ -1,0 +1,180 @@
+{
+	"name": "tiller-hub",
+	"main": "api/index.ts",
+	"compatibility_date": "2025-01-29",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+	},
+	"ai": {
+		"binding": "AI",
+	},
+	"worker_loaders": [
+		{
+			"binding": "LOADER"
+		}
+	],
+	"vars": {
+		// Co-locate HubDO near the container region for low-latency relay.
+		// Change this if you move containers to a different region.
+		// Valid hints: https://developers.cloudflare.com/durable-objects/reference/data-location/
+		"DO_LOCATION_HINT": "wnam"
+	},
+	"containers": [
+		{
+			"class_name": "SandboxDO",
+			"image": "registry.cloudflare.com/6e5c043f652fe45f30d6724b5d20ac94/tiller-sandbox:v1",
+			"max_instances": 2,
+			"instance_type": "basic"
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "HUB",
+				"class_name": "HubDO"
+			},
+			{
+				"name": "TILLER_VOICE",
+				"class_name": "TillerVoice"
+			},
+			{
+				"name": "SANDBOX",
+				"class_name": "SandboxDO"
+			},
+			{
+				"name": "WORKSPACE",
+				"class_name": "WorkspaceDO"
+			},
+			{
+				"name": "CARTOGRAPHER_CHAT",
+				"class_name": "CartographerChatAgent"
+			},
+			{
+				"name": "PLAN_CHAT",
+				"class_name": "PlanChatAgent"
+			},
+			{
+				"name": "PLANNER_CHAT",
+				"class_name": "PlannerChatAgent"
+			},
+			{
+				"name": "RESEARCH_CHAT",
+				"class_name": "ResearchChatAgent"
+			},
+			{
+				"name": "REVIEWER_CHAT",
+				"class_name": "ReviewerChatAgent"
+			},
+		],
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"HubDO"
+			]
+		},
+		{
+			"tag": "v2",
+			"new_classes": [
+				"VoiceDO"
+			]
+		},
+		{
+			"tag": "v3",
+			"deleted_classes": [
+				"VoiceDO"
+			],
+			"new_sqlite_classes": [
+				"HapiVoice"
+			],
+		},
+		{
+			"tag": "v4",
+			"renamed_classes": [
+				{
+					"from": "HapiVoice",
+					"to": "HelmVoice"
+				}
+			],
+		},
+		{
+			"tag": "v5",
+			"new_sqlite_classes": [
+				"SandboxDO"
+			]
+		},
+		{
+			"tag": "v6",
+			"new_sqlite_classes": [
+				"WorkspaceDO"
+			]
+		},
+		{
+			"tag": "v7",
+			"new_sqlite_classes": [
+				"ResearchChatAgent"
+			]
+		},
+		{
+			"tag": "v8",
+			"new_sqlite_classes": [
+				"ReviewerChatAgent"
+			]
+		},
+		{
+			"tag": "v9",
+			"new_sqlite_classes": [
+				"PlannerChatAgent"
+			]
+		},
+		{
+			"tag": "v10",
+			"new_sqlite_classes": [
+				"CartographerChatAgent"
+			]
+		},
+		{
+			"tag": "v11",
+			"new_sqlite_classes": [
+				"PlanChatAgent"
+			]
+		},
+		{
+			"tag": "v12",
+			"renamed_classes": [
+				{
+					"from": "HelmVoice",
+					"to": "TillerVoice"
+				}
+			]
+		},
+	],
+	"r2_buckets": [
+		{
+			"binding": "BUCKET",
+			"bucket_name": "tiller"
+		},
+	],
+	"kv_namespaces": [
+		{
+			"binding": "ENVS_KV",
+			"id": "50ae9de06bd74ebd97b481f40bdc62fe"
+		},
+	],
+	"workers_dev": false,
+	"routes": [
+		{
+			"pattern": "tiller.paperwing.dev",
+			"custom_domain": true
+		}
+	],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+	},
+}
